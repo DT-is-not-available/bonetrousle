@@ -29963,28 +29963,28 @@ mu.prototype.tick = function () {
     if (c.time > g.RB + 2E3 || 10 === c.type) break;
     if (10 !== c.type && !c.action) switch (c.type) {
       case 3:
-        nu(this, 3, c.time, b.left, c.speed, c.bad, c.norotate);
+        nu(this, 3, c.time, b.left, c.speed, c.bad, c.norotate, c.action && true);
         break;
       case 1:
-        nu(this, 1, c.time, b.right, c.speed, c.bad, c.norotate);
+        nu(this, 1, c.time, b.right, c.speed, c.bad, c.norotate, c.action && true);
         break;
       case 0:
-        nu(this, 0, c.time, b.up, c.speed, c.bad, c.norotate);
+        nu(this, 0, c.time, b.up, c.speed, c.bad, c.norotate, c.action && true);
         break;
       case 2:
-        nu(this, 2, c.time, b.HC, c.speed, c.bad, c.norotate);
+        nu(this, 2, c.time, b.HC, c.speed, c.bad, c.norotate, c.action && true);
 		break;
       case 7:
-        nu(this, 3, c.time, b.right, c.speed, c.bad, c.norotate);
+        nu(this, 3, c.time, b.right, c.speed, c.bad, c.norotate, c.action && true);
         break;
       case 5:
-        nu(this, 1, c.time, b.left, c.speed, c.bad, c.norotate);
+        nu(this, 1, c.time, b.left, c.speed, c.bad, c.norotate, c.action && true);
         break;
       case 4:
-        nu(this, 0, c.time, b.HC, c.speed, c.bad, c.norotate);
+        nu(this, 0, c.time, b.HC, c.speed, c.bad, c.norotate, c.action && true);
         break;
       case 6:
-        nu(this, 2, c.time, b.up, c.speed, c.bad, c.norotate);
+        nu(this, 2, c.time, b.up, c.speed, c.bad, c.norotate, c.action && true);
     }
     if (10 !== c.type && c.action) {
 	  var lanes = [b.up, b.right, b.HC, b.left]
@@ -30036,7 +30036,7 @@ mu.prototype.tick = function () {
     m.rY++
   }
 };
-var nu = function (b, g, m, k, zaaa=1, zaab=false, zaac=false) {
+var nu = function (b, g, m, k, zaaa=1, zaab=false, zaac=false, zaad=false) {
   var c = Pj(b.ha, b.ha.ha.ysa);
   Qj(b.ha, c, k);
   var a = c.ec.get(xk);
@@ -30045,6 +30045,7 @@ var nu = function (b, g, m, k, zaaa=1, zaab=false, zaac=false) {
   a.speed = zaaa;
   a.bad = zaab;
   a.norotate = zaac;
+  a.dontcount = zaad;
   b = b.ha;
   m = c.ec.get(xk);
   g = hu.get(g);
@@ -30075,8 +30076,10 @@ pu.prototype.tick = function () {
       var n = b.RB - a.time;
 	  if (!a.speed) a.speed = 1
       c.y = n / 1E3 * m * a.speed;
-      130 < n && !a.bad && 0 == a.state && (a.state = 1, Kj(c, "miss"), qu(c, g, -5, this.ha))
-      130 < n && a.bad && 0 == a.state && (a.state = 2, Kj(c, "success"), qu(c, g, 50, this.ha))
+      if (!a.dontcount) {
+        130 < n && !a.bad && 0 == a.state && (a.state = 1, Kj(c, "miss"), qu(c, g, -5, this.ha))
+        130 < n && a.bad && 0 == a.state && (a.state = 2, Kj(c, "success"), qu(c, g, 50, this.ha))
+      }
     }
   }
 };
